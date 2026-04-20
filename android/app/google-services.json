@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "120552523995",
+    "project_id": "healthgenai-app-2024",
+    "storage_bucket": "healthgenai-app-2024.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120552523995:android:24a12fdae968cf51dba4fe",
+        "android_client_info": {
+          "package_name": "com.example.healthgenai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTGklkwZD07g3yH34yadABTKphOGYkntw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
