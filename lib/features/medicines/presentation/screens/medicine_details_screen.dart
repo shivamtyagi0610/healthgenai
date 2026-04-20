@@ -20,6 +20,32 @@ class MedicineDetailsScreen extends ConsumerStatefulWidget {
 
 class _MedicineDetailsScreenState extends ConsumerState<MedicineDetailsScreen> {
   int _quantity = 1;
+  late Map<String, String> _activeMedicine;
+  late List<Map<String, String>> _relatedMedicines;
+
+  @override
+  void initState() {
+    super.initState();
+    _activeMedicine = widget.medicine;
+    // Initial mock related products
+    _relatedMedicines = [
+      {
+        'name': 'Ibuprofen 400mg',
+        'price': '₹45',
+        'image': 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=500&auto=format&fit=crop&q=60',
+      },
+      {
+        'name': 'Panadol 500mg',
+        'price': '₹25',
+        'image': 'https://images.unsplash.com/photo-1576602976047-174e57a47881?w=500&auto=format&fit=crop&q=60',
+      },
+      {
+        'name': 'Vicks VapoRub',
+        'price': '₹120',
+        'image': 'https://plus.unsplash.com/premium_photo-1678393527940-ba741168f000?w=500&auto=format&fit=crop&q=60',
+      },
+    ];
+  }
 
   void _increment() => setState(() => _quantity++);
   void _decrement() {
@@ -28,9 +54,25 @@ class _MedicineDetailsScreenState extends ConsumerState<MedicineDetailsScreen> {
     }
   }
 
+  void _swapMedicine(Map<String, String> selected) {
+    setState(() {
+      final previousActive = _activeMedicine;
+      _activeMedicine = selected;
+      
+      // Replace the selected medicine in the list with the previous active one
+      final index = _relatedMedicines.indexOf(selected);
+      if (index != -1) {
+        _relatedMedicines[index] = previousActive;
+      }
+      
+      // Reset quantity when changing product
+      _quantity = 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final priceStr = widget.medicine['price'] ?? '₹0';
+    final priceStr = _activeMedicine['price'] ?? '₹0';
     final priceValue = int.tryParse(priceStr.replaceAll('₹', '')) ?? 0;
     final totalPrice = priceValue * _quantity;
 
@@ -48,7 +90,7 @@ class _MedicineDetailsScreenState extends ConsumerState<MedicineDetailsScreen> {
                   Stack(
                     children: [
                       CachedNetworkImage(
-                        imageUrl: widget.medicine['image']!,
+                        imageUrl: _activeMedicine['image']!,
                         width: double.infinity,
                         height: 350,
                         fit: BoxFit.cover,
@@ -83,7 +125,7 @@ class _MedicineDetailsScreenState extends ConsumerState<MedicineDetailsScreen> {
                       children: [
                         // Title
                         Text(
-                          widget.medicine['name'] ?? 'Medicine Name',
+                          _activeMedicine['name'] ?? 'Medicine Name',
                           style: GoogleFonts.inter(
                             fontSize: 24,
                             fontWeight: FontWeight.w700,
@@ -187,10 +229,13 @@ class _MedicineDetailsScreenState extends ConsumerState<MedicineDetailsScreen> {
                           height: 180,
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
-                            itemCount: 3,
+                            itemCount: _relatedMedicines.length,
                             separatorBuilder: (context, index) => const SizedBox(width: 16),
                             itemBuilder: (context, index) {
-                              return _RelatedProductCard();
+                              return _RelatedProductCard(
+                                medicine: _relatedMedicines[index],
+                                onTap: () => _swapMedicine(_relatedMedicines[index]),
+                              );
                             },
                           ),
                         ),
@@ -221,12 +266,12 @@ class _MedicineDetailsScreenState extends ConsumerState<MedicineDetailsScreen> {
                   child: FilledButton.icon(
                     onPressed: () {
                       ref.read(cartProvider.notifier).addItem(
-                        widget.medicine, 
+                        _activeMedicine, 
                         _quantity
                       );
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Added $_quantity ${widget.medicine['name']} to cart'),
+                          content: Text('Added $_quantity ${_activeMedicine['name']} to cart'),
                           backgroundColor: AppColors.primary,
                           behavior: SnackBarBehavior.floating,
                         ),
@@ -287,48 +332,59 @@ class _QuantityButton extends StatelessWidget {
 }
 
 class _RelatedProductCard extends StatelessWidget {
+  final Map<String, String> medicine;
+  final VoidCallback onTap;
+
+  const _RelatedProductCard({
+    required this.medicine,
+    required this.onTap,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 140,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.divider, width: 0.8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.network(
-                'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=500&auto=format&fit=crop&q=60',
-                width: double.infinity,
-                fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 140,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.divider, width: 0.8),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                child: Image.network(
+                  medicine['image']!,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Ibuprofen 400mg',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '₹45',
-                  style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.primary),
-                ),
-              ],
-            ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    medicine['name']!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    medicine['price']!,
+                    style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.primary),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

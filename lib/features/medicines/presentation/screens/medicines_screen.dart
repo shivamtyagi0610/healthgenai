@@ -18,6 +18,7 @@ class MedicinesScreen extends StatefulWidget {
 
 class _MedicinesScreenState extends State<MedicinesScreen> {
   late String _selectedCategory;
+  String _sortType = 'Name'; // Name -> PriceLow -> PriceHigh
   
   final List<String> _categories = [
     'All',
@@ -77,8 +78,29 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
   }
 
   List<Map<String, String>> get _filteredMedicines {
-    if (_selectedCategory == 'All') return _allMedicines;
-    return _allMedicines.where((m) => m['category'] == _selectedCategory).toList();
+    List<Map<String, String>> list;
+    if (_selectedCategory == 'All') {
+      list = List.from(_allMedicines);
+    } else {
+      list = _allMedicines.where((m) => m['category'] == _selectedCategory).toList();
+    }
+
+    if (_sortType == 'Name') {
+      list.sort((a, b) => a['name']!.toLowerCase().compareTo(b['name']!.toLowerCase()));
+    } else if (_sortType == 'PriceLow') {
+      list.sort((a, b) {
+        final priceA = int.parse(a['price']!.replaceAll('₹', '').replaceAll(',', ''));
+        final priceB = int.parse(b['price']!.replaceAll('₹', '').replaceAll(',', ''));
+        return priceA.compareTo(priceB);
+      });
+    } else if (_sortType == 'PriceHigh') {
+      list.sort((a, b) {
+        final priceA = int.parse(a['price']!.replaceAll('₹', '').replaceAll(',', ''));
+        final priceB = int.parse(b['price']!.replaceAll('₹', '').replaceAll(',', ''));
+        return priceB.compareTo(priceA);
+      });
+    }
+    return list;
   }
 
   @override
@@ -206,19 +228,44 @@ class _MedicinesScreenState extends State<MedicinesScreen> {
                       color: AppColors.textSecondary,
                     ),
                   ),
-                  Row(
-                    children: [
-                      const Icon(Icons.swap_vert_rounded, size: 16, color: AppColors.primary),
-                      const SizedBox(width: 4),
-                      Text(
-                        'Name',
-                        style: GoogleFonts.inter(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primary,
+                  // Single Cycling Sort Button
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (_sortType == 'Name') {
+                          _sortType = 'PriceLow';
+                        } else if (_sortType == 'PriceLow') {
+                          _sortType = 'PriceHigh';
+                        } else {
+                          _sortType = 'Name';
+                        }
+                      });
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.swap_vert_rounded, size: 18, color: Color(0xFF2EAA58)),
+                        const SizedBox(width: 6),
+                        Text(
+                          _sortType == 'Name' ? 'Name' : 'Price',
+                          style: GoogleFonts.inter(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF2EAA58),
+                          ),
                         ),
-                      ),
-                    ],
+                        if (_sortType != 'Name') ...[
+                          const SizedBox(width: 4),
+                          Icon(
+                            _sortType == 'PriceLow' 
+                                ? Icons.arrow_downward_rounded 
+                                : Icons.arrow_upward_rounded,
+                            size: 16,
+                            color: const Color(0xFF2EAA58),
+                          ),
+                        ],
+                      ],
+                    ),
                   ),
                 ],
               ),

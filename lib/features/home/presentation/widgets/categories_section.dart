@@ -54,7 +54,7 @@ class CategoriesSection extends StatelessWidget {
               return Container(
                 width: 80,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEDF8F2),
+                  color: const Color(0xFFE9FCE9),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: GestureDetector(

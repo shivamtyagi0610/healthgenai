@@ -27,7 +27,7 @@ class QuickActionsRow extends StatelessWidget {
             _ActionCard(
               title: 'Symptom\nChecker',
               icon: Icons.monitor_heart_outlined,
-              iconBgColor: AppColors.primarySurface,
+              iconBgColor: const Color(0xFFE9FCE9),
               iconColor: AppColors.primary,
               onTap: () {
                 context.go('/home/ai-checker');
@@ -37,7 +37,7 @@ class QuickActionsRow extends StatelessWidget {
             _ActionCard(
               title: 'Upload Rx',
               icon: Icons.upload_rounded,
-              iconBgColor: AppColors.primarySurface,
+              iconBgColor: const Color(0xFFE9FCE9),
               iconColor: AppColors.primary,
               onTap: () {
                 context.go('/home/upload-rx');
@@ -47,7 +47,7 @@ class QuickActionsRow extends StatelessWidget {
             _ActionCard(
               title: 'AI Doctor',
               icon: Icons.chat_bubble_outline_rounded,
-              iconBgColor: AppColors.primarySurface,
+              iconBgColor: const Color(0xFFE9FCE9),
               iconColor: AppColors.primary,
               onTap: () {},
             ),
