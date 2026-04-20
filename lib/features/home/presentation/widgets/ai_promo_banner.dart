@@ -11,7 +11,7 @@ class AIPromoBanner extends StatelessWidget {
       onTap: () => context.go('/home/ai-checker'),
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         gradient: const LinearGradient(
@@ -42,7 +42,7 @@ class AIPromoBanner extends StatelessWidget {
             child: const Icon(
               Icons.auto_awesome_rounded,
               color: Colors.white,
-              size: 32,
+              size: 28,
             ),
           ),
           const SizedBox(width: 16),
@@ -56,7 +56,7 @@ class AIPromoBanner extends StatelessWidget {
                   'AI POWERED',
                   style: GoogleFonts.inter(
                     color: Colors.white.withValues(alpha: 0.9),
-                    fontSize: 11,
+                    fontSize: 10,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 1.2,
                   ),
@@ -68,7 +68,7 @@ class AIPromoBanner extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    height: 1.2,
+                    height: 1.0,
                   ),
                 ),
                 const SizedBox(height: 6),

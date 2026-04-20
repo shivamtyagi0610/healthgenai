@@ -21,37 +21,42 @@ class QuickActionsRow extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _ActionCard(
-              title: 'Symptom\nChecker',
-              icon: Icons.monitor_heart_outlined,
-              iconBgColor: const Color(0xFFE9FCE9),
-              iconColor: AppColors.primary,
-              onTap: () {
-                context.go('/home/ai-checker');
-              },
-            ),
-            const SizedBox(width: 8),
-            _ActionCard(
-              title: 'Upload Rx',
-              icon: Icons.upload_rounded,
-              iconBgColor: const Color(0xFFE9FCE9),
-              iconColor: AppColors.primary,
-              onTap: () {
-                context.go('/home/upload-rx');
-              },
-            ),
-            const SizedBox(width: 8),
-            _ActionCard(
-              title: 'AI Doctor',
-              icon: Icons.chat_bubble_outline_rounded,
-              iconBgColor: const Color(0xFFE9FCE9),
-              iconColor: AppColors.primary,
-              onTap: () {},
-            ),
-          ],
+        IntrinsicHeight(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _ActionCard(
+                title: 'Symptom\nChecker',
+                icon: Icons.monitor_heart_outlined,
+                iconBgColor: const Color(0xFFE9FCE9),
+                iconColor: AppColors.primary,
+                onTap: () {
+                  context.go('/home/ai-checker');
+                },
+              ),
+              const SizedBox(width: 8),
+              _ActionCard(
+                title: 'Upload Rx',
+                icon: Icons.upload_rounded,
+                iconBgColor: const Color(0xFFE9FCE9),
+                iconColor: AppColors.primary,
+                onTap: () {
+                  context.go('/home/upload-rx');
+                },
+              ),
+              const SizedBox(width: 8),
+              _ActionCard(
+                title: 'AI Doctor',
+                icon: Icons.chat_bubble_outline_rounded,
+                iconBgColor: const Color(0xFFE9FCE9),
+                iconColor: AppColors.primary,
+                onTap: () {
+                  context.go('/chat');
+                },
+              ),
+            ],
+          ),
         ),
       ],
     );

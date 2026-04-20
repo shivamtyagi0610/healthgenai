@@ -86,25 +86,30 @@ class _AiSymptomCheckerScreenState extends ConsumerState<AiSymptomCheckerScreen>
               height: 180,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: AppColors.divider, width: 0.8),
+                border: Border.all(color: AppColors.divider.withValues(alpha: 0.6), width: 1.0),
               ),
               child: TextField(
                 controller: _symptomController,
                 maxLines: null,
+                keyboardType: TextInputType.multiline,
                 style: GoogleFonts.inter(
                   fontSize: 15,
                   color: AppColors.textPrimary,
                   height: 1.4,
                 ),
                 decoration: InputDecoration(
-                  hintText: 'e.g. hello mujhe kal se fever hai to konsi medicine lu',
+                  hintText: 'e.g. I have a sore throat, mild fever and a runny nose since yesterday.',
                   hintStyle: GoogleFonts.inter(
-                    fontSize: 12,
+                    fontSize: 15,
                     color: AppColors.textTertiary,
                     height: 1.4,
                   ),
                   border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 ),
               ),
             ),
