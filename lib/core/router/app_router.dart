@@ -13,6 +13,9 @@ import '../../features/chat/presentation/screens/chat_screen.dart';
 import '../../features/cart/presentation/screens/cart_screen.dart';
 import '../../features/orders/presentation/screens/orders_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
+import '../../features/profile/presentation/screens/notification_settings_screen.dart';
+import '../../features/reminders/presentation/screens/medicine_reminder_screen.dart';
+import '../../features/home/presentation/screens/ai_tips_screen.dart';
 import '../../features/auth/presentation/providers/auth_providers.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -60,6 +63,10 @@ final routerProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'ai-checker',
                     builder: (context, state) => const AiSymptomCheckerScreen(),
+                  ),
+                  GoRoute(
+                    path: 'ai-tips',
+                    builder: (context, state) => const AIHealthTipsScreen(),
                   ),
                   GoRoute(
                     path: 'upload-rx',
@@ -118,6 +125,16 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/profile',
                 builder: (context, state) => const ProfileScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'notifications',
+                    builder: (context, state) => const NotificationSettingsScreen(),
+                  ),
+                  GoRoute(
+                    path: 'reminders',
+                    builder: (context, state) => const MedicineReminderScreen(),
+                  ),
+                ],
               ),
             ],
           ),

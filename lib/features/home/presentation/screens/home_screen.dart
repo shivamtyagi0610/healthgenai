@@ -3,6 +3,7 @@ import '../../../../core/constants/app_colors.dart';
 import '../widgets/ai_promo_banner.dart';
 import '../widgets/categories_section.dart';
 import '../widgets/featured_medicines_section.dart';
+import '../widgets/daily_ai_tip_card.dart';
 import '../widgets/home_header.dart';
 import '../widgets/home_search_bar.dart';
 import '../widgets/quick_actions_row.dart';
@@ -24,6 +25,8 @@ class HomeScreen extends StatelessWidget {
               HomeHeader(),
               SizedBox(height: 24),
               HomeSearchBar(),
+              SizedBox(height: 24),
+              DailyAITipCard(),
               SizedBox(height: 24),
               AIPromoBanner(),
               SizedBox(height: 32),
